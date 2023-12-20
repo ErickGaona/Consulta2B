@@ -1,5 +1,5 @@
+import rx._
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Success, Failure}
+implicit  val ctx: Ctx.Owner = Ctx.Owner.safe()
+
 
