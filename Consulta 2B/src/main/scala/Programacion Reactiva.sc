@@ -23,6 +23,6 @@ println(f.now)
 
 val a= Var(1)
 var count = 0
-val o = a.trigger{count = a+1}
+val o = a.trigger{count =a.now +1} // al parecer solo sirve agregando el now (investigare a que se debe)
   println(count)
 a()=4
