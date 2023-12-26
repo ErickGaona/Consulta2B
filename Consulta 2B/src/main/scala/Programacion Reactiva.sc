@@ -12,7 +12,17 @@ val e = Rx{ c() +4}   //7 + 4 = 11
 val f = Rx{ d() +e()+4}  //35 + 11 +4 = 50
 
 println(f.now)
-
+// al modificar el valor de "a" los cambios se propagan hacia las demas variables inteligentes
+// es decir estan receptan el nuevo valor
 a()=5
 
 println(f.now)
+
+
+//Aplicando Observadores en el codigo
+
+val a= Var(1)
+var count = 0
+val o = a.trigger{count = a+1}
+  println(count)
+a()=4
