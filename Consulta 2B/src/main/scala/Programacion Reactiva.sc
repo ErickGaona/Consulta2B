@@ -25,9 +25,9 @@ val a= Var(1)
 var count = 0
 val o = a.trigger{count =a.now +1} // al parecer solo sirve agregando el now (investigare a que se debe)
   println(count)
-a()=4
+a()=2
 //Continuando ampliando conocimientos
 println(count)
 o.kill()
-a() = 3
+a() = 18
 println(count) // entendiendo como funciona el codigo con cada cambio
