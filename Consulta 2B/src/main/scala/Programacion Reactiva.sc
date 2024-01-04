@@ -22,12 +22,13 @@ println(f.now)
 //Aplicando Observadores en el codigo
 
 val a= Var(1)
+val b =Rx{2*a()}
 var count = 0
-val o = a.trigger{count =a.now +1} // al parecer solo sirve agregando el now (investigare a que se debe)
+val o = b.trigger{count =b.now } // al parecer solo sirve agregando el now (investigare a que se debe)
   println(count)
-a()=2
+a()=4
 //Continuando ampliando conocimientos
 println(count)
 o.kill()
-a() = 18
+a() = 3
 println(count) // entendiendo como funciona el codigo con cada cambio
