@@ -29,6 +29,6 @@ val o = b.trigger{count =b.now } // al parecer solo sirve agregando el now (inve
 a()=4
 //Continuando ampliando conocimientos
 println(count)
-o.kill()
+o.kill()// matamos al Observer por ende ya no se actualizara los datos
 a() = 3
-println(count) // entendiendo como funciona el codigo con cada cambio
+println(count)
