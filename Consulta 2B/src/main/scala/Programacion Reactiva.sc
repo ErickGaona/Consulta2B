@@ -1,34 +1,60 @@
-import rx._
+import rx._ // importando Libreria Rx.
 
-implicit  val ctx: Ctx.Owner = Ctx.Owner.safe()
+// defino el contexto implícito para la programación reactiva
+implicit val ctx: Ctx.Owner = Ctx.Owner.safe()
 
-val a = Var[Int]  (1)
-val b = Var[Int] (2)
+// Creo dos variables reactivas -> (Vars) con valores iniciales
+val a = Var[Int](1)
+val b = Var[Int](2)
 
-// Segunda instancia (cambia de valor)
-val c = Rx{ a() +b()} // 5 + 2 = 7
-val d = Rx{ c() *5}   //7 * 5 = 35
-val e = Rx{ c() +4}   //7 + 4 = 11
-val f = Rx{ d() +e()+4}  //35 + 11 +4 = 50
+// creo otras variables reactivas (Rxs) que dependen de a y b
+val c = Rx { a() + b() }       // c = 1 + 2 = 3
+val d = Rx { c() * 5 }         // d = 3 * 5 = 15
+val e = Rx { c() + 4 }         // e = 3 + 4 = 7
+val f = Rx { d() + e() + 4 }   // f = 15 + 7 + 4 = 26
 
-println(f.now)
-// al modificar el valor de "a" los cambios se propagan hacia las demas variables inteligentes
-// es decir estan receptan el nuevo valor
-a()=5
+// Se imprime el valor actual de f
+println(f.now)  // Salida: 26
 
-println(f.now)
+// modifico el valor de la variable (a) lo que provoca que las dependencias se actualicen automáticamente
+a() = 5                  // 5 + 2 = 7
+                         //7 * 5 = 35
+                         //7 + 4 = 11
+                         //35 + 11 +4 = 50
 
 
-//Aplicando Observadores en el codigo
 
-val a= Var(1)
-val b =Rx{2*a()}
+// imprimo el nuevo valor actualizado de f después de la modificación de a
+println(f.now)  // Salida: 50
+
+//-----------------------------------------
+
+// Aplicando Observadores en el código
+
+// Se redefine la variable a (se debe comentar o eliminar la definición anterior de a)
+val a = Var(1)
+
+// Se crea una Rx (variable reactiva) b que depende de a
+val b = Rx { 2 * a() }
+
+// Se inicializa un contador y se crea un Observer (o) para la variable b
 var count = 0
-val o = b.trigger{count =b.now } // al parecer solo sirve agregando el now (investigare a que se debe)
-  println(count)
-a()=4
-//Continuando ampliando conocimientos
-println(count)
-o.kill()// matamos al Observer por ende ya no se actualizara los datos
-a() = 3
-println(count)
+val o = b.trigger { count = b.now }
+
+// Se imprime el valor actual de count
+println(count)  // Salida: 2 (2 * 1)
+
+// Se modifica el valor de la variable a, lo que provoca que las dependencias se actualicen automáticamente
+a() = 4
+
+// Se imprime el nuevo valor actualizado de count después de la modificación de a
+println(count)  // Salida: 8 (2 * 4)
+
+// Se "mata" (kill) el Observer, lo que significa que ya no se actualizará automáticamente
+o.kill()
+
+// Aunque modifique el valor de a después de matar el Observer, no se actualizará count
+//
+//Pruebas
+// a() = 3
+// println(count)
