@@ -34,20 +34,20 @@ println(f.now)  // Salida: 50
 // Se redefine la variable a (se debe comentar o eliminar la definición anterior de a)
 val a = Var(1)
 
-// Se crea una Rx (variable reactiva) b que depende de a
+// creo una (variable reactiva)-> Rx , b que depende de a
 val b = Rx { 2 * a() }
 
-// Se inicializa un contador y se crea un Observer (o) para la variable b
+// creo  un contador y se creo un Observer (o) para la variable b
 var count = 0
 val o = b.trigger { count = b.now }
 
 // Se imprime el valor actual de count
 println(count)  // Salida: 2 (2 * 1)
 
-// Se modifica el valor de la variable a, lo que provoca que las dependencias se actualicen automáticamente
+// Modifico el valor de la variable a, lo que provoca que las dependencias se actualicen automáticamente
 a() = 4
 
-// Se imprime el nuevo valor actualizado de count después de la modificación de a
+// Imprimo el nuevo valor actualizado de count después de la modificación de a
 println(count)  // Salida: 8 (2 * 4)
 
 // Se "mata" (kill) el Observer, lo que significa que ya no se actualizará automáticamente
